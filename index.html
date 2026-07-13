@@ -1,40 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<title>Site Funcionando</title>
-<style>
-body {
-  background-color: #f0f0f0; /* Cor de fundo clara */
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Ocupa toda a altura da tela */
-  margin: 0;
-  position: relative; /* Necessário para o conteúdo principal */
-}
-
-.background-text {
-  font-size: 10vw; /* Tamanho responsivo */
-  color: rgba(0, 0, 0, 0.1); /* Cor semi-transparente */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1; /* Coloca o texto atrás de qualquer outro conteúdo */
-  white-space: nowrap; /* Mantém o texto em uma única linha */
-  text-align: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Gerador RG Frente e Verso</title>
+    <style>
+        .container { display: flex; flex-direction: column; align-items: center; gap: 20px; font-family: sans-serif; }
+        .canvas-area { display: flex; gap: 20px; }
+        canvas { border: 2px solid #333; width: 350px; height: 220px; background-color: #f0f0f0; }
+        .controls { display: flex; flex-direction: column; gap: 10px; width: 300px; }
+    </style>
 </head>
 <body>
 
-<div class="background-text">
-  Site funcionando
+<div class="container">
+    <h2>Gerador de Identidade</h2>
+    <div class="controls">
+        <input type="text" id="nome" placeholder="Nome Completo">
+        <input type="text" id="rg" placeholder="Número do RG">
+        <button onclick="renderizarDocumento()">Gerar Frente e Verso</button>
+    </div>
+
+    <div class="canvas-area">
+        <div>
+            <p>Frente</p>
+            <canvas id="canvasFrente" width="700" height="440"></canvas>
+        </div>
+        <div>
+            <p>Verso</p>
+            <canvas id="canvasVerso" width="700" height="440"></canvas>
+        </div>
+    </div>
 </div>
 
-<!-- Você pode adicionar o conteúdo principal do seu site aqui -->
-<!-- <h1>Bem-vindo ao meu site!</h1> -->
+<script>
+    function renderizarDocumento() {
+        const nome = document.getElementById('nome').value;
+        const rg = document.getElementById('rg').value;
+
+        // Renderiza Frente
+        const canvasF = document.getElementById('canvasFrente');
+        const ctxF = canvasF.getContext('2d');
+        ctxF.clearRect(0, 0, canvasF.width, canvasF.height);
+        ctxF.fillStyle = "white";
+        ctxF.fillRect(0, 0, canvasF.width, canvasF.height);
+        ctxF.fillStyle = "black";
+        ctxF.font = "40px Arial";
+        ctxF.fillText("FRENTE", 20, 50);
+        ctxF.fillText("Nome: " + nome, 50, 150);
+        ctxF.fillText("RG: " + rg, 50, 220);
+
+        // Renderiza Verso
+        const canvasV = document.getElementById('canvasVerso');
+        const ctxV = canvasV.getContext('2d');
+        ctxV.clearRect(0, 0, canvasV.width, canvasV.height);
+        ctxV.fillStyle = "#e0e0e0";
+        ctxV.fillRect(0, 0, canvasV.width, canvasV.height);
+        ctxV.fillStyle = "black";
+        ctxV.font = "40px Arial";
+        ctxV.fillText("VERSO", 20, 50);
+        ctxV.fillText("Código de Segurança", 50, 150);
+        ctxV.fillText("Autenticado via Sist.", 50, 220);
+    }
+</script>
 
 </body>
 </html>
